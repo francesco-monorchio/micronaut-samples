@@ -32,12 +32,13 @@ class InheritableMDCThreadFactory implements ThreadFactory {
             return new Thread(r)
         }
 
-        def runnable = {
+        def runnable = () -> {
 
             MDC.contextMap = contextMap
             try {
                 r.run()
             } finally {
+                //Never invoked. Why?
                 MDC.clear()
             }
         }
@@ -53,7 +54,7 @@ class AuthTraceFilter implements HttpServerFilter {
     @Override
     Publisher<MutableHttpResponse<?>> doFilter(HttpRequest<?> request, ServerFilterChain chain) {
 
-        MDC.put('key', 'value')
+        MDC.put('key', UUID.randomUUID().toString())
         return chain.proceed(request)
     }
 

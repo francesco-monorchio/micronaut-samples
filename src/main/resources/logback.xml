@@ -3,7 +3,7 @@
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <withJansi>true</withJansi>
         <encoder>
-            <pattern>%d %X{key} %-5level %t %logger{8} %msg%n%ex</pattern>
+            <pattern>%d %36X{key} %-5level %t %logger{8} %msg%n%ex</pattern>
         </encoder>
     </appender>
     <root level="INFO">
