@@ -1,6 +1,9 @@
 micronaut:
   application:
     name: micronautSamples
+  executors:
+    io:
+      thread-factory-class: com.samples.InheritableMDCThreadFactory
 netty:
   default:
     allocator:
