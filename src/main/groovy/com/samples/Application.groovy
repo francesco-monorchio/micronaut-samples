@@ -54,7 +54,10 @@ class AuthTraceFilter implements HttpServerFilter {
     @Override
     Publisher<MutableHttpResponse<?>> doFilter(HttpRequest<?> request, ServerFilterChain chain) {
 
-        MDC.put('key', UUID.randomUUID().toString())
+        def uuid = UUID.randomUUID().toString()
+          .substring(25, 35)
+
+        MDC.put('key', uuid)
         return chain.proceed(request)
     }
 
@@ -74,21 +77,22 @@ class SampleController {
     @Client('/')
     HttpClient client
 
-    @Get('/run')
+    @Get('/run-indefinitely')
     void run() {
 
         for (;;) {
 
             def request = HttpRequest.GET('/api/samples')
             client.toBlocking().exchange(request)
+            Thread.sleep(200)
         }
     }
 
     @Get('/api/samples')
-    HttpResponse<String> sample() {
+    HttpResponse<Void> sample() {
 
         log.info('On controller side')
-        return HttpResponse.ok('sample')
+        return HttpResponse.ok()
     }
 
 }
