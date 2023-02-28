@@ -20,6 +20,7 @@ dependencies {
     compileOnly("io.micronaut:micronaut-http-validation")
     implementation("ch.qos.logback:logback-classic")
     implementation("io.micronaut:micronaut-validation")
+    //TODO: If you comment this, warning does not appear
     implementation('io.micronaut.openapi:micronaut-openapi') {
         exclude group: 'org.slf4j', module: 'slf4j-nop'
     }
