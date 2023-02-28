@@ -2,6 +2,7 @@ plugins {
     id("groovy") 
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("io.micronaut.application") version "3.6.3"
+    id("org.unbroken-dome.test-sets") version "4.0.0"
 }
 
 version = "0.1"
@@ -17,19 +18,30 @@ dependencies {
     implementation("io.micronaut.groovy:micronaut-runtime-groovy")
     implementation("jakarta.annotation:jakarta.annotation-api")
     compileOnly("io.micronaut:micronaut-http-validation")
-    runtimeOnly("ch.qos.logback:logback-classic")
+    implementation("ch.qos.logback:logback-classic")
     implementation("io.micronaut:micronaut-validation")
-
+    implementation('io.micronaut.openapi:micronaut-openapi') {
+        exclude group: 'org.slf4j', module: 'slf4j-nop'
+    }
 }
 
 
 application {
     mainClass.set("com.samples.Application")
 }
+
+testSets {
+    integrationTest {
+        dirName = 'integration-test'
+    }
+}
+
 java {
     sourceCompatibility = JavaVersion.toVersion("17")
     targetCompatibility = JavaVersion.toVersion("17")
 }
+
+check.dependsOn integrationTest
 
 graalvmNative.toolchainDetection = false
 micronaut {
